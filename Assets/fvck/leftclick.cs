@@ -1,27 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
-public class leftclick : MonoBehaviour
+public class LeftClick : MonoBehaviour
 {
     public GameObject projectilePrefab; // Assign your projectile prefab in the Inspector
     public float projectileSpeed = 10f;
-    public float projectileLifetime = 5.0f;  // Time after which the projectile will be destroyed
+    public float projectileLifetime = 5.0f; // Time after which the projectile will be destroyed
 
-    private InputSystem temp;
-    private bool isFirstShot = true; // Flag to check if it's the first shot
-
-    private void Awake()
+    private void Update()
     {
-        temp = new InputSystem();
-
-        temp.MoveInput.LeftShoot.performed += (context) =>
+        // Check for left mouse button click
+        if (Input.GetMouseButtonDown(0))
         {
             LeftShoot();
-        };
-
-        temp.MoveInput.Enable();
+        }
     }
 
     private void LeftShoot()
@@ -50,13 +43,7 @@ public class leftclick : MonoBehaviour
             rb.velocity = shootDirection * projectileSpeed;
         }
 
-        // Destroy the projectile after 'projectileLifetime' seconds if it's not the first shot
-        if (!isFirstShot)
-        {
-            Destroy(projectile, projectileLifetime);
-        }
-
-        // Mark that the first shot has been fired
-        isFirstShot = false;
+        // Destroy the projectile after 'projectileLifetime' seconds
+        Destroy(projectile, projectileLifetime);
     }
 }

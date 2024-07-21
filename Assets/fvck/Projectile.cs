@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    public float damage = 10f; // Example property for damage
     public float speed = 10f;  // Example property for speed
 
     // Method to initialize the projectile's properties
@@ -20,17 +19,11 @@ public class Projectile : MonoBehaviour
     // Method to handle collision events
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        // Example logic for when the projectile hits something
-        Debug.Log("Projectile hit: " + collision.gameObject.name);
-
-        // Example: Apply damage to the object hit if it has a health component
-        Health targetHealth = collision.gameObject.GetComponent<Health>();
-        if (targetHealth != null)
+        // Check if the projectile hits an object with the "Enemy" tag
+        if (collision.CompareTag("Enemy"))
         {
-            targetHealth.TakeDamage(damage);
+            // Destroy the projectile upon collision
+            Destroy(gameObject);
         }
-
-        // Destroy the projectile after it hits something
-        Destroy(gameObject);
     }
 }
