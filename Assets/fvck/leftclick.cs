@@ -7,8 +7,10 @@ public class leftclick : MonoBehaviour
 {
     public GameObject projectilePrefab; // Assign your projectile prefab in the Inspector
     public float projectileSpeed = 10f;
+    public float projectileLifetime = 5.0f;  // Time after which the projectile will be destroyed
 
     private InputSystem temp;
+    private bool isFirstShot = true; // Flag to check if it's the first shot
 
     private void Awake()
     {
@@ -36,10 +38,25 @@ public class leftclick : MonoBehaviour
 
         // Set the projectile's collider to be a trigger
         Collider2D projectileCollider = projectile.GetComponent<Collider2D>();
-        projectileCollider.isTrigger = true;
+        if (projectileCollider != null)
+        {
+            projectileCollider.isTrigger = true;
+        }
 
         // Apply velocity to the projectile
         Rigidbody2D rb = projectile.GetComponent<Rigidbody2D>();
-        rb.velocity = shootDirection * projectileSpeed;
+        if (rb != null)
+        {
+            rb.velocity = shootDirection * projectileSpeed;
+        }
+
+        // Destroy the projectile after 'projectileLifetime' seconds if it's not the first shot
+        if (!isFirstShot)
+        {
+            Destroy(projectile, projectileLifetime);
+        }
+
+        // Mark that the first shot has been fired
+        isFirstShot = false;
     }
 }
