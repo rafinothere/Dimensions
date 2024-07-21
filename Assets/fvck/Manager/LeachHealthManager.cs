@@ -5,18 +5,16 @@ using UnityEngine.UI;
 
 public class LeachHealthManager : MonoBehaviour
 {
-    public Image healthBar;
-    public float healthAmount = 100f;
+    public Image healthBar; // Reference to the health bar UI element
+    public float healthAmount = 100f; // Initial health amount
     public float projectileDamage = 20f; // Damage value from projectiles
-
-    public GameObject leachPrefab; // Reference to the leach prefab
-    public float splitRadius = 1f;  // Radius within which new leach objects will be spawned
+    public float spawnOffset = 0.5f; // Offset for spawning new leach objects
 
     void Update()
     {
         if (healthAmount <= 0)
         {
-            Die();
+            Die(); // Call Die() when health reaches 0
         }
     }
 
@@ -24,31 +22,30 @@ public class LeachHealthManager : MonoBehaviour
     {
         if (collision.CompareTag("Projectile"))
         {
-            // Apply damage to the enemy
-            TakeDamage(projectileDamage);
+            TakeDamage(projectileDamage); // Apply damage to the enemy
         }
-    }
-
-    public void TakeDamage(float damage)
-    {
-        healthAmount -= damage;
-        healthBar.fillAmount = healthAmount / 100f;
     }
 
     private void Die()
     {
-        // Split the leach into two identical leach enemies
-        Split();
+        Split(); // Split the leach into two identical leach enemies
         Destroy(gameObject); // Destroy the original leach object
     }
 
     private void Split()
     {
-        if (leachPrefab != null)
-        {
-            // Create two new leach objects
-            Instantiate(leachPrefab, transform.position + new Vector3(-splitRadius, 0, 0), Quaternion.identity);
-            Instantiate(leachPrefab, transform.position + new Vector3(splitRadius, 0, 0), Quaternion.identity);
-        }
+        // Create two new leach objects by duplicating the current one
+        Vector3 spawnPosition1 = transform.position + new Vector3(-spawnOffset, 0, 0);
+        Vector3 spawnPosition2 = transform.position + new Vector3(spawnOffset, 0, 0);
+
+        // Instantiate two clones of the current GameObject
+        Instantiate(gameObject, spawnPosition1, transform.rotation);
+        Instantiate(gameObject, spawnPosition2, transform.rotation);
+    }
+
+    private void TakeDamage(float damage)
+    {
+        healthAmount -= damage; // Reduce health by the specified damage
+        healthBar.fillAmount = healthAmount / 100f; // Update health bar UI
     }
 }
