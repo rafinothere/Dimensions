@@ -5,48 +5,40 @@ using UnityEngine.SceneManagement;
 
 public class Enemydimensionchange : MonoBehaviour
 {
-    public GameObject enemyToChange; // Assign this in the Unity Editor
+    public GameObject enemyToMove; // Assign this in the Unity Editor
+    public int dimensionNum;
 
-    private void OnTriggerEnter2D(Collider2D other)
+    private void OnTriggerEnter2D(Collider2D collide)
     {
-        if (other.CompareTag("Portal projectile"))
+        if((collide.gameObject.tag == "Portal projectile"))
         {
-            // Get the current active scene's build index
-            int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
-
-            // Generate a random dimension number (scene index) that is different from the current one
-            int dimensionNum;
+            Debug.Log("collision detected");
             do
             {
-                dimensionNum = UnityEngine.Random.Range(0, SceneManager.sceneCountInBuildSettings);
-            } while (dimensionNum == currentSceneIndex);
-
-            Debug.Log($"Moving enemy to scene index: {dimensionNum}");
-
-            // Load the target scene additively
-            SceneManager.LoadScene(dimensionNum, LoadSceneMode.Additive);
-
-            // Wait until the scene is fully loaded
-            StartCoroutine(MoveEnemyToScene(dimensionNum));
+                dimensionNum = UnityEngine.Random.Range(0,3);
+            } while (dimensionNum == SceneManager.GetActiveScene().buildIndex);
+            LoadAndUnloadScene(dimensionNum);
         }
     }
 
-    private IEnumerator MoveEnemyToScene(int targetSceneIndex)
+    public void LoadAndUnloadScene(int dimensionNum)
     {
-        // Wait until the new scene is fully loaded
-        yield return new WaitUntil(() => SceneManager.GetSceneByBuildIndex(targetSceneIndex).isLoaded);
-
-        // Get the target scene
-        Scene targetScene = SceneManager.GetSceneByBuildIndex(targetSceneIndex);
-
-        // Move the enemy to the target scene
-        if (enemyToChange != null)
-        {
-            SceneManager.MoveGameObjectToScene(enemyToChange, targetScene);
-        }
-
-        // Optionally unload the current scene
-        // Ensure this happens after the enemy has been moved
-        SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().buildIndex);
+        StartCoroutine(LoadAndUnload(dimensionNum));
     }
+
+    private IEnumerator LoadAndUnload(int dimensionNum)
+    {
+        AsyncOperation loadOperation = SceneManager.LoadSceneAsync(dimensionNum, LoadSceneMode.Additive);
+        SceneManager.MoveGameObjectToScene(enemyToMove, SceneManager.GetSceneByBuildIndex(dimensionNum));
+
+        yield return loadOperation;
+
+        SceneManager.UnloadSceneAsync(dimensionNum);
+
+    }
+
+
+
+            
+            
 }

@@ -25,18 +25,13 @@ public class dimensionchange : MonoBehaviour
     {
         if(collide.gameObject.name =="portal")
         {
-
-            int dimensionNum = UnityEngine.Random.Range(0,3);
-            if((dimensionNum == SceneManager.GetActiveScene().buildIndex) && (dimensionNum == 3))
+            int dimensionNum;
+            do
             {
-                dimensionNum = 0;
-            }
-            else if(dimensionNum == SceneManager.GetActiveScene().buildIndex)
-            {
-                dimensionNum += 1;
-            }
+                dimensionNum = UnityEngine.Random.Range(0,3);
+            } while (dimensionNum == SceneManager.GetActiveScene().buildIndex);
             DontDestroyOnLoad(objectToMove);
-            SceneManager.LoadScene(dimensionNum);
+             SceneManager.LoadScene(dimensionNum);
         }
     }
 
