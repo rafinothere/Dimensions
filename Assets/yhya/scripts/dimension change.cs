@@ -37,11 +37,6 @@ public class dimensionchange : MonoBehaviour
             }
             DontDestroyOnLoad(objectToMove);
             SceneManager.LoadScene(dimensionNum);
-        
-            
-            
-        
-
         }
     }
 
