@@ -42,6 +42,7 @@ public class SpawnerHp : MonoBehaviour
 
         if (healthAmount <= 0)
         {
+            Debug.Log("Health reached zero!");
             SpawnEnemies();
         }
     }
@@ -55,6 +56,8 @@ public class SpawnerHp : MonoBehaviour
 
     private void SpawnEnemies()
     {
+        Debug.Log("Spawning enemies!");
+
         // Spawn three enemies (customize as needed)
         for (int i = 0; i < 3; i++)
         {
