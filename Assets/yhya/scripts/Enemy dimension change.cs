@@ -7,9 +7,9 @@ public class Enemydimensionchange : MonoBehaviour
 {
     public GameObject enemyToChange; // Assign this in the Unity Editor
 
-    void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        if (collision.gameObject.CompareTag("Portal projectile"))
+        if (other.CompareTag("Portal projectile"))
         {
             // Get the current active scene's build index
             int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
