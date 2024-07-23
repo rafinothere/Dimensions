@@ -28,7 +28,7 @@ public class dimensionchange : MonoBehaviour
             int dimensionNum;
             do
             {
-                dimensionNum = UnityEngine.Random.Range(0,3);
+                dimensionNum = UnityEngine.Random.Range(0,2);
             } while (dimensionNum == SceneManager.GetActiveScene().buildIndex);
             DontDestroyOnLoad(objectToMove);
              SceneManager.LoadScene(dimensionNum);
