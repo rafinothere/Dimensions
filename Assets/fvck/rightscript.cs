@@ -1,31 +1,45 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.InputSystem;
 using UnityEngine;
 
-public class RightScript : MonoBehaviour
+public class rightscript : MonoBehaviour
 {
     public GameObject projectilePrefab; // Assign your projectile prefab in the Inspector
     public float projectileSpeed = 10f;
     public float projectileLifetime = 5.0f; // Time after which the projectile will be destroyed
+    private InputSystem inputs;
+
+    private void Awake()
+    {
+        inputs = new InputSystem();
+        inputs.Enable();
+    }
+
+    private void OnEnable()
+    {
+        inputs.MoveInput.ScrollAbility.performed += ScrollPerformed;
+    }
+
+    private void OnDisable()
+    {
+        inputs.MoveInput.ScrollAbility.performed -= ScrollPerformed;
+        inputs.Disable();
+    }
 
     private void Update()
     {
         // Check for right mouse button click
-        if (Input.GetMouseButtonDown(1))
+        if (Mouse.current.rightButton.wasPressedThisFrame)
         {
             RightShoot();
-        }
-        // Check for scroll mouse  
-        if (Input.GetMouseButtonDown(2))
-        {
-            ScrollAbility();
         }
     }
 
     private void RightShoot()
     {
         // Get the mouse position in world coordinates
-        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
         mousePosition.z = 0f; // Ensure the same z-coordinate as the player
 
         // Calculate direction from player to mouse
@@ -52,8 +66,18 @@ public class RightScript : MonoBehaviour
         Destroy(projectile, projectileLifetime);
     }
 
-    private void ScrollAbility()
+    private void ScrollPerformed(InputAction.CallbackContext context)
     {
-        Debug.Log("Scroll ability activated");
+        float scrollValue = context.ReadValue<float>();
+        if (scrollValue > 0)
+        {
+            // Scroll up logic
+            Debug.Log("Scrolling up");
+        }
+        else if (scrollValue < 0)
+        {
+            // Scroll down logic
+            Debug.Log("Scrolling down");
+        }
     }
 }
