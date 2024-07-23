@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class pullEnemies : MonoBehaviour
+public class pushEnemies : MonoBehaviour
 {
     private float radius = 10f;
 
@@ -13,10 +13,11 @@ public class pullEnemies : MonoBehaviour
         {
             if(collider.gameObject.tag == "Enemy")
             {
-                float distance = (Vector2.Distance(transform.position, collider.gameObject.transform.position))*50;
-                Vector2 relativePosition = (transform.position - collider.gameObject.transform.position)/distance;
+                float distance = (Vector2.Distance(transform.position, collider.gameObject.transform.position))*175;
+                Vector2 relativePosition = (collider.gameObject.transform.position - transform.position)/distance;
                 Rigidbody2D rb = collider.gameObject.GetComponent<Rigidbody2D>();
                 rb.velocity = rb.velocity + relativePosition;
+
             }
         }
 
