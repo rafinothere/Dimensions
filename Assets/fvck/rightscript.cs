@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEngine;
 
-public class rightscript : MonoBehaviour
+public class RightScript : MonoBehaviour
 {
-    public GameObject projectilePrefab; // Assign your projectile prefab in the Inspector
+    public List<GameObject> projectilePrefabs; // List of projectile prefabs
     public float projectileSpeed = 10f;
     public float projectileLifetime = 5.0f; // Time after which the projectile will be destroyed
     private InputSystem inputs;
+    private int selectedProjectileIndex = 0; // Index of the currently selected projectile
 
     private void Awake()
     {
@@ -45,7 +46,8 @@ public class rightscript : MonoBehaviour
         // Calculate direction from player to mouse
         Vector3 shootDirection = (mousePosition - transform.position).normalized;
 
-        // Instantiate the projectile
+        // Instantiate the selected projectile
+        GameObject projectilePrefab = projectilePrefabs[selectedProjectileIndex];
         GameObject projectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
 
         // Set the projectile's collider to be a trigger
@@ -72,12 +74,14 @@ public class rightscript : MonoBehaviour
         if (scrollValue > 0)
         {
             // Scroll up logic
-            Debug.Log("Scrolling up");
+            selectedProjectileIndex = (selectedProjectileIndex + 1) % projectilePrefabs.Count;
+            Debug.Log("Selected Projectile: " + selectedProjectileIndex);
         }
         else if (scrollValue < 0)
         {
             // Scroll down logic
-            Debug.Log("Scrolling down");
+            selectedProjectileIndex = (selectedProjectileIndex - 1 + projectilePrefabs.Count) % projectilePrefabs.Count;
+            Debug.Log("Selected Projectile: " + selectedProjectileIndex);
         }
     }
 }
