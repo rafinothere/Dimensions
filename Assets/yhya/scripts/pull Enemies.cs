@@ -4,15 +4,27 @@ using UnityEngine;
 
 public class pullEnemies : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    private float radius = 10f;
 
-    // Update is called once per frame
+    private void checkEnemies()
+    {
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, radius);
+        foreach (Collider2D collider in colliders)
+        {
+            if(collider.gameObject.tag == "Enemy")
+            {
+                float distance = Vector2.Distance(transform.position, collider.gameObject.transform.position);
+                Vector2 relativePosition = (transform.position - collider.gameObject.transform.position)*distance;
+                Rigidbody2D rb = collider.gameObject.GetComponent<Rigidbody2D>();
+                rb.velocity = rb.velocity + relativePosition;
+
+            }
+        }
+
+    }
+    
     void Update()
     {
-        
+        checkEnemies();
     }
 }
