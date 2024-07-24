@@ -4,9 +4,7 @@ using UnityEngine.InputSystem;
 public class LeftClick : MonoBehaviour
 {
     public float raycastRange = 100f;
-    public string raycastTag = "RaycastBullet";
-    public GameObject raycastObjectPrefab; // Assign this in the Inspector
-    public float raycastObjectSpeed = 20f;
+    public LayerMask raycastLayerMask; // Set this in the Inspector
 
     private InputSystem inputSystem;
     private InputAction leftShootAction;
@@ -38,35 +36,24 @@ public class LeftClick : MonoBehaviour
 
     private void ShootRaycast()
     {
-        // Create a ray from the camera's position pointing towards the mouse position
-        Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
+        // Get the mouse position in the world space
+        Vector2 mousePosition = Mouse.current.position.ReadValue();
+        Ray ray = Camera.main.ScreenPointToRay(mousePosition);
         RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit, raycastRange))
+        // Debug.DrawRay to visualize the ray in the Scene view
+        Debug.DrawRay(ray.origin, ray.direction * raycastRange, Color.red, 2f);
+
+        // Perform the raycast
+        if (Physics.Raycast(ray, out hit, raycastRange, raycastLayerMask))
         {
-            // Instantiate the raycast object at the camera's position
-            GameObject raycastObject = Instantiate(raycastObjectPrefab, Camera.main.transform.position, Quaternion.identity);
-            raycastObject.tag = raycastTag;
-
-            // Calculate direction to the hit point
-            Vector3 direction = (hit.point - Camera.main.transform.position).normalized;
-
-            // Set the raycast object's rotation to face the direction of travel
-            raycastObject.transform.rotation = Quaternion.LookRotation(direction);
-
-            // Add a Rigidbody and set its velocity
-            Rigidbody rb = raycastObject.GetComponent<Rigidbody>();
-            if (rb == null) rb = raycastObject.AddComponent<Rigidbody>();
-            rb.velocity = direction * raycastObjectSpeed;
-
-            // Optional: Destroy the raycast object after it reaches the hit point
-            float distanceToTarget = Vector3.Distance(Camera.main.transform.position, hit.point);
-            Destroy(raycastObject, distanceToTarget / raycastObjectSpeed);
-
-            Debug.Log("Raycast object created and moving towards: " + hit.collider.gameObject.name);
+            // Raycast hit something
+            Debug.Log("Raycast hit: " + hit.collider.gameObject.name);
+            // Handle hit logic here
         }
         else
         {
+            // Raycast did not hit anything
             Debug.Log("Raycast did not hit anything.");
         }
     }
