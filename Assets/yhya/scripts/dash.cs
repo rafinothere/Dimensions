@@ -4,5 +4,17 @@ using UnityEngine;
 
 public class dash : MonoBehaviour
 {
-    
+    void OnTriggerEnter2D(Collider2D activate)
+    {
+        if (activate.CompareTag("Projectile"))
+        {
+            Dash();
+        }
+    }
+
+    void Dash()
+    {
+        GameObject targetObject = GameObject.FindGameObjectWithTag("Player");
+        Debug.Log("player found");
+    }
 }
