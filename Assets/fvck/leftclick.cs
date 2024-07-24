@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 public class LeftClick : MonoBehaviour
 {
     public GameObject attackObjectToSpawn;
-    public float spawnDistance = 2f;
+    public float spawnDistance = 4f;
     public float attackDuration = 0.5f;
 
     private InputSystem inputs;
