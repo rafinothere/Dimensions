@@ -3,8 +3,8 @@ using UnityEngine.InputSystem;
 
 public class LeftClick : MonoBehaviour
 {
-    public float raycastRange = 100f;
-    public LayerMask raycastLayerMask; // Set this in the Inspector
+    public GameObject objectToSpawn; // Assign the object to spawn in the Inspector
+    public float spawnDistance = 2f; // Distance in front of the player to spawn the object
 
     private InputSystem inputSystem;
     private InputAction leftShootAction;
@@ -31,30 +31,18 @@ public class LeftClick : MonoBehaviour
 
     private void OnLeftShoot(InputAction.CallbackContext context)
     {
-        ShootRaycast();
-    }
+        // Calculate the position in front of the player
+        Vector3 spawnPosition = transform.position + transform.forward * spawnDistance;
 
-    private void ShootRaycast()
-    {
-        // Get the mouse position in the world space
-        Vector2 mousePosition = Mouse.current.position.ReadValue();
-        Ray ray = Camera.main.ScreenPointToRay(mousePosition);
-        RaycastHit hit;
-
-        // Debug.DrawRay to visualize the ray in the Scene view
-        Debug.DrawRay(ray.origin, ray.direction * raycastRange, Color.red, 2f);
-
-        // Perform the raycast
-        if (Physics.Raycast(ray, out hit, raycastRange, raycastLayerMask))
+        // Get the mouse position in world space
+        Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
+        if (Physics.Raycast(ray, out RaycastHit hit))
         {
-            // Raycast hit something
-            Debug.Log("Raycast hit: " + hit.collider.gameObject.name);
-            // Handle hit logic here
+            // Set the spawn position to the point where the ray intersects with the ground
+            spawnPosition = hit.point;
         }
-        else
-        {
-            // Raycast did not hit anything
-            Debug.Log("Raycast did not hit anything.");
-        }
+
+        // Instantiate the object at the calculated position and player's rotation
+        Instantiate(objectToSpawn, spawnPosition, transform.rotation);
     }
 }

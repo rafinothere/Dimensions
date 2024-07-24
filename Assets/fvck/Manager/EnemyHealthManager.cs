@@ -8,7 +8,7 @@ public class EnemyHealthManager : MonoBehaviour
     public Image healthBar;
     public float healthAmount = 100f;
     public float projectileDamage = 20f; // Damage value from projectiles
-    public float raycastDamage = 20f; // Damage value from raycast
+
 
     void Update()
     {
@@ -39,10 +39,4 @@ public class EnemyHealthManager : MonoBehaviour
         Destroy(gameObject); // Example: Destroy the enemy game object.
     }
 
-    // Method to handle raycast hits
-    private void OnRaycastHit()
-    {
-        // Apply damage to the enemy from a raycast
-        TakeDamage(raycastDamage);
-    }
 }
