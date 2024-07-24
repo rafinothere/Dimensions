@@ -5,8 +5,27 @@ using UnityEngine;
 public class pullEnemies : MonoBehaviour
 {
     private float radius = 10f;
+    private float duration = 0f;
 
-    private void checkEnemies()
+    void OnTriggerEnter2D(Collider2D activate)
+    {
+        if (activate.CompareTag("Projectile"))
+        {
+            Debug.Log("active");
+            duration = 5f;
+        }
+    }
+
+    private void activeTime()
+    {
+        if(duration > 0)
+        {
+            Pull();
+            duration -= Time.deltaTime;
+        }
+    }
+
+    private void Pull()
     {
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, radius);
         foreach (Collider2D collider in colliders)
@@ -24,6 +43,6 @@ public class pullEnemies : MonoBehaviour
     
     void Update()
     {
-        checkEnemies();
+        activeTime();
     }
 }
