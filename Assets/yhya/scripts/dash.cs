@@ -42,7 +42,7 @@ public class dash : MonoBehaviour
 
     private void endDash()
     {
-        if((dashing == true) &&(rb.velocity.x < 5) && (rb.velocity.y < 5))
+        if((dashing == true) &&(rb.velocity.x < 2) && (rb.velocity.y < 2))
         {
             dashing = false;
             playerController.enabled = true;
