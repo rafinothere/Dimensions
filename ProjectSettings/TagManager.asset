@@ -9,6 +9,9 @@ TagManager:
   - Portal projectile
   - Bullet
   - Dash
+  - Player(invis)
+  - Decoy(inactive)
+  - Decoy(active)
   layers:
   - Default
   - TransparentFX
