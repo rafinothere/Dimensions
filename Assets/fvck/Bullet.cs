@@ -25,5 +25,6 @@ public class Bullet : MonoBehaviour
             // Destroy the projectile upon collision
             Destroy(gameObject);
         }
+
     }
 }
