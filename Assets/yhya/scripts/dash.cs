@@ -14,11 +14,12 @@ public class dash : MonoBehaviour
 
     void Dash()
     {
-        GameObject targetObject = GameObject.FindGameObjectWithTag("Player");
-        if (targetObject != null)
-        {
-            Debug.Log("player found");
-        }
-        
+        GameObject Player = GameObject.FindGameObjectWithTag("Player");
+        Vector2 dashDirection = (transform.position - Player.gameObject.transform.position)*10;
+        wasd playerController = Player.GetComponent<wasd>();
+        playerController.enabled = false;
+        Rigidbody2D rb = Player.GetComponent<Rigidbody2D>();
+        rb.velocity = rb.velocity + dashDirection;
+        Debug.Log(rb.velocity);
     }
 }
