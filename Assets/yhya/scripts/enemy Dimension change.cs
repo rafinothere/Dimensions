@@ -6,7 +6,6 @@ using UnityEngine.SceneManagement;
 public class enemyDimensionchange : MonoBehaviour
 {
     private int dimensionNum = -1;
-    private bool change = false;
     public GameObject enemyToMove;
     private Vector3 offScreen = new Vector3(100000, 0, 0);
 
@@ -42,7 +41,6 @@ public class enemyDimensionchange : MonoBehaviour
             DontDestroyOnLoad(enemyToMove);
             enemyAI.enabled = false;
             transform.position = offScreen;
-            change = true;
         }
     }
 
@@ -51,7 +49,6 @@ public class enemyDimensionchange : MonoBehaviour
     {
         Scene activeScene = SceneManager.GetActiveScene();
         SceneManager.MoveGameObjectToScene(enemyToMove, activeScene);
-        change = false;
         dimensionNum = -1;
         enemyAI.enabled = true;
 
