@@ -1,49 +1,50 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class LeftClick : MonoBehaviour
 {
-    public GameObject projectilePrefab; // Assign your projectile prefab in the Inspector
-    public float projectileSpeed = 10f;
-    public float projectileLifetime = 5.0f; // Time after which the projectile will be destroyed
+    public float raycastRange = 100f; // Maximum range for the raycast
 
-    private void Update()
+    private InputSystem inputSystem;
+    private InputAction leftShootAction;
+
+    private void Awake()
     {
-        // Check for left mouse button click
-        if (Input.GetMouseButtonDown(0))
-        {
-            LeftShoot();
-        }
+        inputSystem = new InputSystem();
     }
 
-    private void LeftShoot()
+    private void OnEnable()
     {
-        // Get the mouse position in world coordinates
-        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        mousePosition.z = 0f; // Ensure the same z-coordinate as the player
+        inputSystem.Enable();
+        leftShootAction = inputSystem.MoveInput.LeftShoot;
+        leftShootAction.performed += OnLeftShoot;
+        leftShootAction.Enable();
+    }
 
-        // Calculate direction from player to mouse
-        Vector3 shootDirection = (mousePosition - transform.position).normalized;
+    private void OnDisable()
+    {
+        leftShootAction.performed -= OnLeftShoot;
+        leftShootAction.Disable();
+        inputSystem.Disable();
+    }
 
-        // Instantiate the projectile
-        GameObject projectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
+    private void OnLeftShoot(InputAction.CallbackContext context)
+    {
+        ShootRaycast();
+    }
 
-        // Set the projectile's collider to be a trigger
-        Collider2D projectileCollider = projectile.GetComponent<Collider2D>();
-        if (projectileCollider != null)
+    private void ShootRaycast()
+    {
+        // Cast a ray from the camera's position forward
+        Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
+        RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, raycastRange);
+
+        if (hit.collider != null)
         {
-            projectileCollider.isTrigger = true;
+            // Handle hit logic (e.g., apply damage, destroy enemies, etc.)
+            Debug.Log("Hit: " + hit.collider.gameObject.name);
         }
-
-        // Apply velocity to the projectile
-        Rigidbody2D rb = projectile.GetComponent<Rigidbody2D>();
-        if (rb != null)
-        {
-            rb.velocity = shootDirection * projectileSpeed;
-        }
-
-        // Destroy the projectile after 'projectileLifetime' seconds
-        Destroy(projectile, projectileLifetime);
     }
 }
