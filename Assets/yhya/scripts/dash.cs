@@ -15,6 +15,10 @@ public class dash : MonoBehaviour
     void Dash()
     {
         GameObject targetObject = GameObject.FindGameObjectWithTag("Player");
-        Debug.Log("player found");
+        if (targetObject != null)
+        {
+            Debug.Log("player found");
+        }
+        
     }
 }
