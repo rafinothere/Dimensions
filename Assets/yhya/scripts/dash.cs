@@ -4,6 +4,18 @@ using UnityEngine;
 
 public class dash : MonoBehaviour
 {
+    private GameObject Player;
+    private float dashDistance;
+    private Vector2 dashDirection;
+    private wasd playerController;
+    private Rigidbody2D rb;
+    private bool dashing = false;
+
+    void Update()
+    {
+        findPlayer();
+        endDash();
+    }
     void OnTriggerEnter2D(Collider2D activate)
     {
         if (activate.CompareTag("Projectile"))
@@ -12,14 +24,29 @@ public class dash : MonoBehaviour
         }
     }
 
-    void Dash()
+    private void Dash()
     {
-        GameObject Player = GameObject.FindGameObjectWithTag("Player");
-        Vector2 dashDirection = (transform.position - Player.gameObject.transform.position)*10;
-        wasd playerController = Player.GetComponent<wasd>();
         playerController.enabled = false;
-        Rigidbody2D rb = Player.GetComponent<Rigidbody2D>();
         rb.velocity = rb.velocity + dashDirection;
-        Debug.Log(rb.velocity);
+        dashing = true;
+    }
+
+    private void findPlayer()
+    {
+        Player = GameObject.FindGameObjectWithTag("Player");
+        dashDistance = Vector2.Distance(transform.position,Player.gameObject.transform.position);
+        dashDirection = (transform.position - Player.gameObject.transform.position)*dashDistance;
+        playerController = Player.GetComponent<wasd>();
+        rb = Player.GetComponent<Rigidbody2D>();
+    }
+
+    private void endDash()
+    {
+        if((dashing == true) &&(rb.velocity.x < 5) && (rb.velocity.y < 5))
+        {
+            dashing = false;
+            playerController.enabled = true;
+            rb.velocity = new Vector2(0,0);
+        }
     }
 }
