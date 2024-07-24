@@ -6,7 +6,7 @@ public class pullEnemies : MonoBehaviour
 {
     private float radius = 10f;
 
-    private void checkEnemies()
+    private void Pull()
     {
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, radius);
         foreach (Collider2D collider in colliders)
