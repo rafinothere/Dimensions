@@ -8,6 +8,7 @@ public class EnemyHealthManager : MonoBehaviour
     public Image healthBar;
     public float healthAmount = 100f;
     public float projectileDamage = 20f; // Damage value from projectiles
+    public float raycastDamage = 20f; // Damage value from raycast
 
     void Update()
     {
@@ -21,7 +22,7 @@ public class EnemyHealthManager : MonoBehaviour
     {
         if (collision.CompareTag("Projectile"))
         {
-            // Apply damage to the enemy
+            // Apply damage to the enemy from a projectile
             TakeDamage(projectileDamage);
         }
     }
@@ -36,5 +37,12 @@ public class EnemyHealthManager : MonoBehaviour
     {
         // Add death logic here (e.g., play a death animation, destroy the enemy object, etc.)
         Destroy(gameObject); // Example: Destroy the enemy game object.
+    }
+
+    // Method to handle raycast hits
+    private void OnRaycastHit()
+    {
+        // Apply damage to the enemy from a raycast
+        TakeDamage(raycastDamage);
     }
 }
