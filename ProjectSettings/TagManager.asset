@@ -8,6 +8,7 @@ TagManager:
   - Projectile
   - Portal projectile
   - Bullet
+  - Dash
   layers:
   - Default
   - TransparentFX
