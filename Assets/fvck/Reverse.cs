@@ -43,14 +43,9 @@ public class Reverse : MonoBehaviour
             // Select a random enemy prefab from the list
             GameObject selectedEnemyPrefab = enemyPrefabs[Random.Range(0, enemyPrefabs.Count)];
 
-            // Create two new leach objects by duplicating the current one
-            Vector3 spawnPosition1 = transform.position + new Vector3(-spawnOffset, 0, 0);
+            // Instantiate the selected enemy at the projectile's position
+            GameObject spawnedEnemy = Instantiate(selectedEnemyPrefab, transform.position, Quaternion.identity);
 
-            // Instantiate two clones of the current GameObject (your enemy prefabs)
-            GameObject enemy1 = Instantiate(gameObject, spawnPosition1, transform.rotation);
-
-
-            spawnedEnemyCount++; // Increment the spawned enemy count
             // Disable the enemy's movement components for 1 second
             StartCoroutine(ActivateEnemyAfterDelay(spawnedEnemy));
         }
