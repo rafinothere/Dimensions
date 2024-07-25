@@ -11,6 +11,7 @@ TagManager:
   - Dash
   - Player(invis)
   - Decoy(inactive)
+  - Reverse
   layers:
   - Default
   - TransparentFX

@@ -4,25 +4,32 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    public float speed = 10f;  // Example property for speed
+    public List<GameObject> enemyPrefabs;  // List of enemy prefabs
+
+    private float spawnDelay = 1f;  // Delay in seconds before spawning the enemy
+
 
     // Method to initialize the projectile's properties
-    public void Initialize(Vector3 direction, float projectileSpeed)
+    public void Initialize(Vector3 direction)
     {
-        Rigidbody2D rb = GetComponent<Rigidbody2D>();
-        if (rb != null)
+        // No need to set velocity based on speed
+
+        // Set the initial position
+        Vector3 spawnPosition = transform.position;
+
+        // Spawn a random enemy from the list
+        if (enemyPrefabs.Count > 0)
         {
-            rb.velocity = direction * projectileSpeed;
+            int randomIndex = Random.Range(0, enemyPrefabs.Count);
+            Instantiate(enemyPrefabs[randomIndex], spawnPosition, Quaternion.identity);
         }
     }
 
-    // Method to handle collision events
+    // Method to handle collision events (unchanged)
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        // Check if the projectile hits an object with the "Enemy" tag
         if (collision.CompareTag("Enemy"))
         {
-            // Destroy the projectile upon collision
             Destroy(gameObject);
         }
     }
