@@ -33,7 +33,11 @@ public class dash : MonoBehaviour
 
     private void findPlayer()
     {
-        Player = GameObject.FindGameObjectWithTag("Player");
+        Player = GameObject.FindGameObjectWithTag("Player(invis)");
+        if(Player == null)
+        {
+            Player = GameObject.FindGameObjectWithTag("Player");
+        }
         dashDistance = Vector2.Distance(transform.position,Player.gameObject.transform.position);
         dashDirection = (transform.position - Player.gameObject.transform.position)*dashDistance;
         playerController = Player.GetComponent<wasd>();
