@@ -32,6 +32,10 @@ public class HealthManager : MonoBehaviour
             {
                 TakeDamage(20); 
             }
+        else if(collision.gameObject.CompareTag("HealthPickup"))
+            {
+                Heal(20);
+            }
         }
 
     public void TakeDamage(float damage)
@@ -46,4 +50,5 @@ public class HealthManager : MonoBehaviour
         healthAmount = Mathf.Clamp(healthAmount, 0, 100);
         healthBar.fillAmount = healthAmount / 100f;
     }
+
 }
