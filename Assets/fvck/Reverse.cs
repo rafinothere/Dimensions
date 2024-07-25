@@ -28,8 +28,9 @@ public class Reverse : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         // Check if the projectile hits an object with the "Enemy" tag
-        if (collision.CompareTag("Enemy"))
+        if ((collision.CompareTag("Enemy")) || (collision.CompareTag("Projectile")))
         {
+            Debug.Log("Hit");
             SpawnRandomEnemy();
             // Destroy the projectile upon collision
             Destroy(gameObject);

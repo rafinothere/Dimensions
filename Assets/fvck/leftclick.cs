@@ -1,13 +1,19 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Collections;
 
 public class LeftClick : MonoBehaviour
 {
     public GameObject attackObjectToSpawn;
     public float spawnDistance = 4f;
     public float attackDuration = 0.5f;
+    public float shootingDelay = 0.9f; // Delay between shots
 
     private InputSystem inputs;
+    private bool isShooting = false;
+    private int activeShots = 0;
+    private const int maxActiveShots = 2;
+    private Coroutine shootingCoroutine;
 
     private void Awake()
     {
@@ -18,20 +24,43 @@ public class LeftClick : MonoBehaviour
     private void OnEnable()
     {
         inputs.MoveInput.LeftShoot.performed += OnLeftShoot;
+        inputs.MoveInput.LeftShoot.canceled += OnLeftShootCanceled;
     }
 
     private void OnDisable()
     {
         inputs.MoveInput.LeftShoot.performed -= OnLeftShoot;
+        inputs.MoveInput.LeftShoot.canceled -= OnLeftShootCanceled;
         inputs.Disable();
     }
 
-    private void Update()
+    private void OnLeftShoot(InputAction.CallbackContext context)
     {
-        // Check for left mouse button click
-        if (Mouse.current.leftButton.wasPressedThisFrame)
+        if (!isShooting)
         {
-            LeftShoot();
+            isShooting = true;
+            shootingCoroutine = StartCoroutine(HandleShooting());
+        }
+    }
+
+    private void OnLeftShootCanceled(InputAction.CallbackContext context)
+    {
+        if (isShooting)
+        {
+            isShooting = false;
+            StopCoroutine(shootingCoroutine);
+        }
+    }
+
+    private IEnumerator HandleShooting()
+    {
+        while (isShooting)
+        {
+            if (activeShots < maxActiveShots)
+            {
+                LeftShoot();
+            }
+            yield return new WaitForSeconds(shootingDelay); // Wait for delay before next shot
         }
     }
 
@@ -61,9 +90,11 @@ public class LeftClick : MonoBehaviour
         {
             // Instantiate the attack object at the calculated position and rotation
             GameObject spawnedAttackObject = Instantiate(attackObjectToSpawn, spawnPosition, rotation);
+            activeShots++;
 
             // Destroy the attack object after the specified duration
             Destroy(spawnedAttackObject, attackDuration);
+            StartCoroutine(RemoveActiveShotAfterDelay(spawnedAttackObject, attackDuration));
         }
         else
         {
@@ -71,8 +102,9 @@ public class LeftClick : MonoBehaviour
         }
     }
 
-    private void OnLeftShoot(InputAction.CallbackContext context)
+    private IEnumerator RemoveActiveShotAfterDelay(GameObject attackObject, float delay)
     {
-        LeftShoot();
+        yield return new WaitForSeconds(delay);
+        activeShots--;
     }
 }

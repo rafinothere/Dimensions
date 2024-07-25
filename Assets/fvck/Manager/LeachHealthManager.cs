@@ -6,8 +6,8 @@ using UnityEngine.UI;
 public class LeachHealthManager : MonoBehaviour
 {
     public Image healthBar; // Reference to the health bar UI element
-    public float healthAmount = 100f; // Initial health amount
-    public float projectileDamage = 20f; // Damage value from projectiles
+    public float healthAmount = 1000f; // Initial health amount
+    public float projectileDamage = 1f; // Damage value from projectiles
     public float spawnOffset = 0.5f; // Offset for spawning new leach objects
 
     private bool isDead = false; // Flag to track if the leach is dead
