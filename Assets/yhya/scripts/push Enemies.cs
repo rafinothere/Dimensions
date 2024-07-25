@@ -18,7 +18,6 @@ public class pushEnemies : MonoBehaviour
     {
         if (activate.CompareTag("Projectile"))
         {
-            Debug.Log("active");
             duration = 5f;
         }
     }
