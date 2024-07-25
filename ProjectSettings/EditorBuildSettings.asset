@@ -12,7 +12,7 @@ EditorBuildSettings:
     path: Assets/fvck/fvck scene.unity
     guid: 0fdc3ec432f8be542b04778c1bc9a619
   - enabled: 1
-    path: Assets/Scenes/dimension 1.unity
+    path: Assets/Scenes/Earth.unity
     guid: 19a60f6aedee2ac4c930647575b1e367
   - enabled: 1
     path: Assets/Scenes/dimension 2.unity
