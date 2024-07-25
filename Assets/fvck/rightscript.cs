@@ -2,12 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEngine;
+using TMPro; // Add this namespace
 
 public class RightScript : MonoBehaviour
 {
     public List<GameObject> projectilePrefabs; // List of projectile prefabs
     public float projectileSpeed = 10f;
     public float projectileLifetime = 5.0f; // Time after which the projectile will be destroyed
+    public TMP_Text projectileNameText; // Reference to the TextMeshPro UI element
     private InputSystem inputs;
     private int selectedProjectileIndex = 0; // Index of the currently selected projectile
 
@@ -15,6 +17,11 @@ public class RightScript : MonoBehaviour
     {
         inputs = new InputSystem();
         inputs.Enable();
+    }
+
+    private void Start()
+    {
+        UpdateProjectileName();
     }
 
     private void OnEnable()
@@ -75,13 +82,20 @@ public class RightScript : MonoBehaviour
         {
             // Scroll up logic
             selectedProjectileIndex = (selectedProjectileIndex + 1) % projectilePrefabs.Count;
-            Debug.Log("Selected Projectile: " + selectedProjectileIndex);
         }
         else if (scrollValue < 0)
         {
             // Scroll down logic
             selectedProjectileIndex = (selectedProjectileIndex - 1 + projectilePrefabs.Count) % projectilePrefabs.Count;
-            Debug.Log("Selected Projectile: " + selectedProjectileIndex);
+        }
+        UpdateProjectileName();
+    }
+
+    private void UpdateProjectileName()
+    {
+        if (projectileNameText != null && projectilePrefabs.Count > 0)
+        {
+            projectileNameText.text = "" + projectilePrefabs[selectedProjectileIndex].name;
         }
     }
 }
