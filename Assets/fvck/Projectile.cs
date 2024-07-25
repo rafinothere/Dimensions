@@ -1,6 +1,14 @@
 using System.Collections;
 using UnityEngine;
 
+/* I need for this script to switch between doing 2 things and the switch should happen for each shot
+the first shot should have the tag of the projectile be PortalProjectile
+
+
+
+*/
+
+
 public class Projectile : MonoBehaviour
 {
     public float spawnOffset = 0.5f;
