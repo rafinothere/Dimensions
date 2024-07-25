@@ -14,7 +14,6 @@ public class Projectile : MonoBehaviour
     public float spawnOffset = 0.5f;
     private bool enemySpawned = false;
     public GameObject enemyPrefab;
-    private float elapsedTime = 0f;
     public float speed = 10f;
 
     private static GameObject storedEnemyPrefab;
@@ -26,13 +25,9 @@ public class Projectile : MonoBehaviour
 
     void Update()
     {
-        if (CurrentMode == ProjectileMode.ReverseProjectile)
+        if (CurrentMode == ProjectileMode.ReverseProjectile && !enemySpawned)
         {
-            elapsedTime += Time.deltaTime;
-            if (elapsedTime >= 0.5f && !enemySpawned)
-            {
-                StartCoroutine(SpawnEnemy());
-            }
+            StartCoroutine(SpawnEnemy());
         }
     }
 
@@ -61,6 +56,16 @@ public class Projectile : MonoBehaviour
         if (CurrentMode == ProjectileMode.PortalProjectile && collision.CompareTag("Enemy"))
         {
             storedEnemyPrefab = collision.gameObject;
+            Destroy(collision.gameObject);
+            Destroy(gameObject);
+        }
+        else if (CurrentMode == ProjectileMode.ReverseProjectile && !enemySpawned)
+        {
+            if (storedEnemyPrefab != null)
+            {
+                Instantiate(storedEnemyPrefab, transform.position, transform.rotation);
+                enemySpawned = true;
+            }
             Destroy(gameObject);
         }
     }
