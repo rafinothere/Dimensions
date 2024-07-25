@@ -4,11 +4,17 @@ using UnityEngine;
 
 public class healthPickup : MonoBehaviour
 {
-    void OnTriggerEnter2D(Collider2D Heal)
+    
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (Heal.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("HealthPickup"))
         {
             Debug.Log("collision detected");
         }
+    }
+
+    private void Heal()
+    {
+
     }
 }

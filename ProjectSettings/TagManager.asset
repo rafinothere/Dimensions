@@ -12,6 +12,7 @@ TagManager:
   - Player(invis)
   - Decoy(inactive)
   - Reverse
+  - HealthPickup
   layers:
   - Default
   - TransparentFX
