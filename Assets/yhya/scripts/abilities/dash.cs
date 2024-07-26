@@ -10,11 +10,12 @@ public class dash : MonoBehaviour
     private wasd playerController;
     private Rigidbody2D rb;
     private bool dashing = false;
-
+    private float lifespan = 5f;
     void Update()
     {
         findPlayer();
         endDash();
+        lifetime();
     }
     void OnTriggerEnter2D(Collider2D activate)
     {
@@ -51,6 +52,19 @@ public class dash : MonoBehaviour
             dashing = false;
             playerController.enabled = true;
             rb.velocity = new Vector2(0,0);
+            Destroy(gameObject);
+        }
+    }
+
+    private void lifetime()
+    {
+        if(lifespan > 0)
+        {
+            lifespan -= Time.deltaTime;
+        } 
+        else if((dashing == false) && (gameObject.name == "dash projectile(Clone)"))
+        {
+            Destroy(gameObject);
         }
     }
 }
