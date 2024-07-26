@@ -6,6 +6,8 @@ public class pullEnemies : MonoBehaviour
 {
     private float radius = 10f;
     private float duration = 0f;
+    private bool active;
+    private float lifespan = 5f;
 
     void OnTriggerEnter2D(Collider2D activate)
     {
@@ -23,6 +25,10 @@ public class pullEnemies : MonoBehaviour
             Pull();
             duration -= Time.deltaTime;
         }
+        else if(active == true)
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void Pull()
@@ -32,6 +38,7 @@ public class pullEnemies : MonoBehaviour
         {
             if(collider.gameObject.tag == "Enemy")
             {
+                active = true;
                 float distance = (Vector2.Distance(transform.position, collider.gameObject.transform.position))*50;
                 Vector2 relativePosition = (transform.position - collider.gameObject.transform.position)/distance;
                 Rigidbody2D rb = collider.gameObject.GetComponent<Rigidbody2D>();
@@ -40,9 +47,22 @@ public class pullEnemies : MonoBehaviour
         }
 
     }
+
+    private void lifetime()
+    {
+        if(lifespan > 0)
+        {
+            lifespan -= Time.deltaTime;
+        }
+        else if((active == false) && (gameObject.name != "Pull"))
+        {
+            Destroy(gameObject);
+        }
+    }
     
     void Update()
     {
         activeTime();
+        lifetime();
     }
 }

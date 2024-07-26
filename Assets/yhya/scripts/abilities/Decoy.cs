@@ -56,7 +56,7 @@ public class Decoy : MonoBehaviour
         {
             lifespan -= Time.deltaTime;
         }
-        else if((active == false) && (gameObject.name == "Decoy(Clone)"))
+        else if((active == false) && (gameObject.name != "Decoy"))
         {
             Destroy(gameObject);
         }

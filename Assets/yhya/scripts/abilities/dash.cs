@@ -11,7 +11,7 @@ public class dash : MonoBehaviour
     private Rigidbody2D rb;
     private bool dashing = false;
     private float lifespan = 5f;
-    
+
     void Update()
     {
         findPlayer();
@@ -63,7 +63,7 @@ public class dash : MonoBehaviour
         {
             lifespan -= Time.deltaTime;
         } 
-        else if((dashing == false) && (gameObject.name == "dash projectile(Clone)"))
+        else if((dashing == false) && (gameObject.name != "dash projectile"))
         {
             Destroy(gameObject);
         }
