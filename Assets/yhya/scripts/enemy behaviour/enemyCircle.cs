@@ -42,7 +42,7 @@ public class enemyCircle : MonoBehaviour
 
     private void aproach()
     {
-        rb.velocity = -playerPosition;
+        rb.velocity = (-playerPosition);
         float angle = Mathf.Atan2(-playerPosition.y, -playerPosition.x) * Mathf.Rad2Deg - 90f;
         transform.eulerAngles = new Vector3(0f, 0f, angle);
     }
@@ -61,3 +61,4 @@ public class enemyCircle : MonoBehaviour
         playerPosition = (transform.position - player.transform.position);
     }
 }
+ 
