@@ -32,6 +32,10 @@ public class HealthManager : MonoBehaviour
             {
                 TakeDamage(20); 
             }
+        else if(collision.gameObject.CompareTag("Enemyshot"))
+            {
+                TakeDamage(2);
+            }
         else if(collision.gameObject.CompareTag("HealthPickup"))
             {
                 Heal(20);
