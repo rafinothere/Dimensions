@@ -81,7 +81,5 @@ public class Reverse : MonoBehaviour
 
         Destroy(gameObject);
 
-
-
     }
 }
