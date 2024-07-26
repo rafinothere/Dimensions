@@ -7,10 +7,12 @@ public class Decoy : MonoBehaviour
     private GameObject player;
     private float duration = 0;
     private bool active;
+    private float lifespan = 5f;
 
     void Update()
     {
         activePeriod();
+        lifetime();
     }
 
     void OnTriggerEnter2D(Collider2D activate)
@@ -44,6 +46,19 @@ public class Decoy : MonoBehaviour
         {
             player.tag = "Player";
             gameObject.tag = "Decoy(inactive)";
+            Destroy(gameObject);
+        }
+    }
+
+    private void lifetime()
+    {
+        if(lifespan > 0)
+        {
+            lifespan -= Time.deltaTime;
+        }
+        else if((active == false) && (gameObject.name == "Decoy(Clone)"))
+        {
+            Destroy(gameObject);
         }
     }
 

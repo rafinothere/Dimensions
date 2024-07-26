@@ -11,6 +11,7 @@ public class dash : MonoBehaviour
     private Rigidbody2D rb;
     private bool dashing = false;
     private float lifespan = 5f;
+    
     void Update()
     {
         findPlayer();
