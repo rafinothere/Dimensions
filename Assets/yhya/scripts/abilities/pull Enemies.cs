@@ -9,6 +9,12 @@ public class pullEnemies : MonoBehaviour
     private bool active;
     private float lifespan = 5f;
 
+    void Update()
+    {
+        activeTime();
+        lifetime();
+    }
+
     void OnTriggerEnter2D(Collider2D activate)
     {
         if (activate.CompareTag("Projectile"))
@@ -60,9 +66,4 @@ public class pullEnemies : MonoBehaviour
         }
     }
     
-    void Update()
-    {
-        activeTime();
-        lifetime();
-    }
 }

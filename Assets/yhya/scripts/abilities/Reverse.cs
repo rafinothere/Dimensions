@@ -30,10 +30,7 @@ public class Reverse : MonoBehaviour
         // Check if the projectile hits an object with the "Enemy" tag
         if ((collision.CompareTag("Enemy")) || (collision.CompareTag("Projectile")))
         {
-            Debug.Log("Hit");
-            SpawnRandomEnemy();
-            // Destroy the projectile upon collision
-            Destroy(gameObject);
+            StartCoroutine(SpawnAndDestroy());
         }
     }
 
@@ -73,5 +70,18 @@ public class Reverse : MonoBehaviour
         {
             enemyRb.simulated = true;
         }
+    }
+
+    private IEnumerator SpawnAndDestroy()
+    {
+        Debug.Log("Hit");
+        SpawnRandomEnemy();
+        // Destroy the projectile upon collision
+        yield return new WaitForSeconds(5f);
+
+        Destroy(gameObject);
+
+
+
     }
 }
