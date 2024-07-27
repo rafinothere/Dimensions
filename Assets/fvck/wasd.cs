@@ -10,6 +10,11 @@ public class wasd : MonoBehaviour
     InputSystem temp;
     private Vector2 MoveInput;
 
+    private bool isMovingUp;
+    private bool isMovingDown;
+    private bool isMovingLeft;
+    private bool isMovingRight;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -18,6 +23,13 @@ public class wasd : MonoBehaviour
 
     void Update()
     {
+        Vector2 direction = Vector2.zero;
+        if (isMovingUp) direction += Vector2.up;
+        if (isMovingDown) direction += Vector2.down;
+        if (isMovingLeft) direction += Vector2.left;
+        if (isMovingRight) direction += Vector2.right;
+
+        MoveInput = direction.normalized;
         rb.velocity = MoveInput * moveSpeed;
     }
 
@@ -25,41 +37,18 @@ public class wasd : MonoBehaviour
     {
         temp = new InputSystem();
 
-        temp.MoveInput.MoveUp.performed += OnMoveUp;
-        temp.MoveInput.MoveDown.performed += OnMoveDown;
-        temp.MoveInput.MoveLeft.performed += OnMoveLeft;
-        temp.MoveInput.MoveRight.performed += OnMoveRight;
+        temp.MoveInput.MoveUp.performed += context => isMovingUp = true;
+        temp.MoveInput.MoveUp.canceled += context => isMovingUp = false;
 
-        temp.MoveInput.MoveUp.canceled += OnMoveCanceled;
-        temp.MoveInput.MoveDown.canceled += OnMoveCanceled;
-        temp.MoveInput.MoveLeft.canceled += OnMoveCanceled;
-        temp.MoveInput.MoveRight.canceled += OnMoveCanceled;
+        temp.MoveInput.MoveDown.performed += context => isMovingDown = true;
+        temp.MoveInput.MoveDown.canceled += context => isMovingDown = false;
+
+        temp.MoveInput.MoveLeft.performed += context => isMovingLeft = true;
+        temp.MoveInput.MoveLeft.canceled += context => isMovingLeft = false;
+
+        temp.MoveInput.MoveRight.performed += context => isMovingRight = true;
+        temp.MoveInput.MoveRight.canceled += context => isMovingRight = false;
 
         temp.MoveInput.Enable();
-    }
-
-    void OnMoveUp(InputAction.CallbackContext context)
-    {
-        MoveInput = Vector2.up;
-    }
-
-    void OnMoveDown(InputAction.CallbackContext context)
-    {
-        MoveInput = Vector2.down;
-    }
-
-    void OnMoveLeft(InputAction.CallbackContext context)
-    {
-        MoveInput = Vector2.left;
-    }
-
-    void OnMoveRight(InputAction.CallbackContext context)
-    {
-        MoveInput = Vector2.right;
-    }
-
-    void OnMoveCanceled(InputAction.CallbackContext context)
-    {
-        MoveInput = Vector2.zero;
     }
 }
