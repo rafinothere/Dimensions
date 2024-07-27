@@ -4,15 +4,22 @@ using UnityEngine;
 
 public class chargerenemy : MonoBehaviour
 {
-    // Start is called before the first frame update
+    private enemyrandom random;
+    private EnemyDash dash;
+
     void Start()
     {
-        
+        random = GetComponent<enemyrandom>();
+        dash = GetComponent<EnemyDash>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if(Vector2.Distance(transform.position,player.transform.position) < 20f)
+        {
+            random.enabled = false;
+            dash.enabled = true;
+        }
     }
 }
