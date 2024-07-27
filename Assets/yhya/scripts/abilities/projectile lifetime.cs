@@ -17,7 +17,7 @@ public class projectilelifetime : MonoBehaviour
         {
             lifespan -= Time.deltaTime;
         }
-        else if(gameObject.name != "Portal")
+        else if((gameObject.name != "Portal") && (gameObject.name != "Circle"))
         {
             Destroy(gameObject);
         }

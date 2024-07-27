@@ -44,7 +44,7 @@ public class EnemyProjectile : MonoBehaviour
             if (rb != null)
             {
                 // Instantiate the chosen projectile prefab
-                GameObject newProjectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
+                GameObject newProjectile = Instantiate(projectilePrefab,(transform.position + direction), Quaternion.identity);
                 // Set the projectile's velocity
                 newProjectile.GetComponent<Rigidbody2D>().velocity = direction * speed;
             }

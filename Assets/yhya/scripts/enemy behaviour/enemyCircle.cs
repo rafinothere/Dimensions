@@ -17,19 +17,7 @@ public class enemyCircle : MonoBehaviour
     void FixedUpdate()
     {
         findPlayer();
-        if (distanceToPlayer > 8f)
-        {
-            aproach();
-            
-        }
-        else if(distanceToPlayer < 2)
-        {
-            retreat();
-        }
-        else
-        {
-            circlePlayer();
-        }
+        circlePlayer();
     }
 
     private void circlePlayer()
@@ -37,20 +25,6 @@ public class enemyCircle : MonoBehaviour
         Vector2 tangent = new Vector2(-playerPosition.y, playerPosition.x);
         rb.velocity = tangent;
         float angle = Mathf.Atan2(-playerPosition.y, -playerPosition.x) * Mathf.Rad2Deg - 90f;
-        transform.eulerAngles = new Vector3(0f, 0f, angle);
-    }
-
-    private void aproach()
-    {
-        rb.velocity = (-playerPosition);
-        float angle = Mathf.Atan2(-playerPosition.y, -playerPosition.x) * Mathf.Rad2Deg - 90f;
-        transform.eulerAngles = new Vector3(0f, 0f, angle);
-    }
-
-    private void retreat()
-    {
-        rb.velocity = playerPosition;
-        float angle = Mathf.Atan2(playerPosition.y, playerPosition.x) * Mathf.Rad2Deg - 90f;
         transform.eulerAngles = new Vector3(0f, 0f, angle);
     }
 
