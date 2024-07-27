@@ -18,7 +18,7 @@ public class HealthManager : MonoBehaviour
             SceneManager.LoadScene(0);
             healthAmount = 100f;
             healthBar.fillAmount = healthAmount / 100f;
-            player.transform.position = new Vector2(-8f,0.5f);
+            transform.position = new Vector2(-8f,0.5f);
 
         }
 
