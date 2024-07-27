@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class standardenemy : MonoBehaviour
 {
-    private enemyfollow follow;
+    private overshoot follow;
     private enemyrandom random;
     void Start()
     {
-        follow = GetComponent<enemyfollow>();
+        follow = GetComponent<overshoot>();
         random = GetComponent<enemyrandom>();
     }
 
