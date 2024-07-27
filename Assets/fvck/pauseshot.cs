@@ -17,12 +17,12 @@ public class pauseshot : MonoBehaviour
     private void Start()
     {
         // Find the player object (you can set this reference in the Inspector)
-        player = GameObject.FindGameObjectWithTag("Player").transform;
         nextFireTime = Time.time;  // Initialize the next fire time
     }
 
     private void Update()
     {
+        player = GameObject.FindGameObjectWithTag("Player").transform;
         // Check if it's time to fire
         if (Time.time >= nextFireTime)
         {
