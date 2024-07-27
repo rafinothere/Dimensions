@@ -6,7 +6,8 @@ using TMPro; // Add this namespace
 
 public class RightScript : MonoBehaviour
 {
-    public List<GameObject> projectilePrefabs; // List of projectile prefabs
+    public List<GameObject> projectilePrefabs; // List of enabled projectile prefabs
+    public List<GameObject> disabledProjectilePrefabs; // List of disabled projectile prefabs
     public float projectileSpeed = 10f;
     public float projectileLifetime = 5.0f; // Time after which the projectile will be destroyed
     public TMP_Text projectileNameText; // Reference to the TextMeshPro UI element
@@ -46,6 +47,8 @@ public class RightScript : MonoBehaviour
 
     private void RightShoot()
     {
+        if (projectilePrefabs.Count == 0) return;
+
         // Get the mouse position in world coordinates
         Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
         mousePosition.z = 0f; // Ensure the same z-coordinate as the player
@@ -77,6 +80,8 @@ public class RightScript : MonoBehaviour
 
     private void ScrollPerformed(InputAction.CallbackContext context)
     {
+        if (projectilePrefabs.Count == 0) return;
+
         float scrollValue = context.ReadValue<float>();
         if (scrollValue > 0)
         {
