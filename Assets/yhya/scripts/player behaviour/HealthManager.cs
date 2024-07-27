@@ -2,25 +2,32 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class HealthManager : MonoBehaviour
 {
     public Image healthBar;
     public float healthAmount = 100f;
+    [SerializeField] private GameObject player;
 
     void Update()
     {
         if (healthAmount <= 0)
         {
-            UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
+            DontDestroyOnLoad(player);
+            SceneManager.LoadScene(0);
+            healthAmount = 100f;
+            healthBar.fillAmount = healthAmount / 100f;
+            player.transform.position = new Vector2(-8f,0.5f);
+
         }
 
-        if (Input.GetKeyDown(KeyCode.Return))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             TakeDamage(20);
         }
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Return))
         {
             Heal(5);
         }
