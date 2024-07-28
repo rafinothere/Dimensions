@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEngine;
-using TMPro; // Add this namespace
+using TMPro;
 
 public class RightScript : MonoBehaviour
 {
@@ -13,6 +13,8 @@ public class RightScript : MonoBehaviour
     public TMP_Text projectileNameText; // Reference to the TextMeshPro UI element
     private InputSystem inputs;
     private int selectedProjectileIndex = 0; // Index of the currently selected projectile
+
+    private const string UpgradeTag = "upgrade"; // Define the tag as a constant string
 
     private void Awake()
     {
@@ -101,6 +103,38 @@ public class RightScript : MonoBehaviour
         if (projectileNameText != null && projectilePrefabs.Count > 0)
         {
             projectileNameText.text = "" + projectilePrefabs[selectedProjectileIndex].name;
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        Debug.Log($"Collision detected with: {collision.gameObject.name}");
+        if (collision.gameObject.CompareTag(UpgradeTag))
+        {
+            Debug.Log("Upgrade tag matched.");
+            if (disabledProjectilePrefabs.Count > 0)
+            {
+                // Select a random disabled projectile
+                int randomIndex = Random.Range(0, disabledProjectilePrefabs.Count);
+                GameObject randomProjectile = disabledProjectilePrefabs[randomIndex];
+
+                // Move the selected projectile to the enabled projectiles list
+                projectilePrefabs.Add(randomProjectile);
+                disabledProjectilePrefabs.RemoveAt(randomIndex);
+
+                Debug.Log($"Moved {randomProjectile.name} from disabled to enabled projectiles list.");
+
+                // Update the projectile name display if the list was previously empty
+                if (projectilePrefabs.Count == 1)
+                {
+                    selectedProjectileIndex = 0;
+                    UpdateProjectileName();
+                }
+            }
+            else
+            {
+                Debug.Log("No disabled projectiles to enable.");
+            }
         }
     }
 }
