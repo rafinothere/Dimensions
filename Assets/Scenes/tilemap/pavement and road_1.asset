@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 13312, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: road texture
+  m_Name: pavement and road_1
   m_EditorClassIdentifier: 
-  m_Sprite: {fileID: 21300000, guid: 336155948f8fb3a479ee4436d7d22c71, type: 3}
+  m_Sprite: {fileID: -2099953650, guid: 46c22dc00c8d02b41897d8c8101bc634, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Transform:
     e00: 1
