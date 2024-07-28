@@ -4,30 +4,42 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
+    public List<GameObject> spawnPrefabs; // Assign your prefabs in the Inspector
+    private float spawnInterval = 10f; // Initial spawn interval of 10 seconds
 
-    public float projectileDamage = 1f; // Damage value from projectiles
-    public GameObject spawnPrefab; // Assign your prefab in the Inspector
-    public float dropChance = 0.05f; // Public variable to set the drop chance
+    void Start()
+    {
+        StartCoroutine(SpawnRoutine());
+    }
+
+    private IEnumerator SpawnRoutine()
+    {
+        while (true)
+        {
+            SpawnObject();
+            yield return new WaitForSeconds(spawnInterval);
+            spawnInterval *= 0.95f; // Decrease the interval by 5%
+        }
+    }
+
+    private void SpawnObject()
+    {
+        if (spawnPrefabs.Count > 0)
+        {
+            int randomIndex = Random.Range(0, spawnPrefabs.Count);
+            GameObject prefabToSpawn = spawnPrefabs[randomIndex];
+            Instantiate(prefabToSpawn, transform.position, Quaternion.identity);
+        }
+        else
+        {
+            Debug.LogWarning("No prefabs assigned to spawnPrefabs list.");
+        }
+    }
 
     void Update()
     {
-
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-
+        // Update logic if needed
     }
 
 
-    private void Die()
-    {
-        // Add death logic here (e.g., play a death animation, destroy the enemy object, etc.)
-        if (Random.Range(0f, 1f) <= dropChance) // Use the dropChance variable
-        {
-            Instantiate(spawnPrefab, transform.position, Quaternion.identity);
-        }
-
-        Destroy(gameObject); // Example: Destroy the enemy game object.
-    }
 }
