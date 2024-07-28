@@ -8,18 +8,6 @@ public class dimensionchange : MonoBehaviour
 
     public GameObject objectToMove;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     //change dimension when touching portal
     void OnCollisionEnter2D(Collision2D collide)
     {
@@ -28,7 +16,7 @@ public class dimensionchange : MonoBehaviour
             int dimensionNum;
             do
             {
-                dimensionNum = UnityEngine.Random.Range(0,3);
+                dimensionNum = UnityEngine.Random.Range(2,5);
             } while (dimensionNum == SceneManager.GetActiveScene().buildIndex);
             DontDestroyOnLoad(objectToMove);
              SceneManager.LoadScene(dimensionNum);
