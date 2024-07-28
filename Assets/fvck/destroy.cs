@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class destroy : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    // This method is called when the collider attached to this object 
+    // collides with another collider
+    void OnCollisionEnter2D(Collision2D collision)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        // Check if the collided object has the tag "Player"
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            // Destroy this game object
+            Destroy(gameObject);
+        }
     }
 }
