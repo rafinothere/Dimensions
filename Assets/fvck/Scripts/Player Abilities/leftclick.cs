@@ -73,17 +73,16 @@ public class LeftClick : MonoBehaviour
         }
 
         // Get the mouse position in world coordinates
-        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
-        mousePosition.z = 0f; // Ensure the same z-coordinate as the player
+        Vector3 mousePosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0f);
+        //mousePosition.z = 0f; // Ensure the same z-coordinate as the player
 
         // Debugging: Log the mouse position
         Debug.Log("Mouse Position: " + mousePosition);
-
         // Calculate direction from player to mouse
-        Vector3 attackDirection = (mousePosition - transform.position).normalized;
+        Vector3 attackDirection = (mousePosition - transform.position);
 
         // Debugging: Log the attack direction
-        Debug.Log("Attack Direction: " + attackDirection);
+        //Debug.Log("Attack Direction: " + attackDirection);
 
         // Calculate the spawn position
         Vector3 spawnPosition = transform.position + attackDirection * spawnDistance;
