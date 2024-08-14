@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 using UnityEngine;
 using TMPro;
 
-public class RightScript : MonoBehaviour
+public class rightscript : MonoBehaviour
 {
     public List<GameObject> projectilePrefabs; // List of enabled projectile prefabs
     public List<GameObject> disabledProjectilePrefabs; // List of disabled projectile prefabs
