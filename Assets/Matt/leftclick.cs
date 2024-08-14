@@ -8,6 +8,7 @@ public class LeftClick : MonoBehaviour
     public float spawnDistance = 4f;
     public float attackDuration = 0.5f;
     public float shootingDelay = 0.9f; // Delay between shots
+    public GameObject shootPoint;
 
     private InputSystem inputs;
     private bool isShooting = false;
@@ -73,19 +74,18 @@ public class LeftClick : MonoBehaviour
         }
 
         // Get the mouse position in world coordinates
-        Vector3 mousePosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0f);
+        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0f));
         //mousePosition.z = 0f; // Ensure the same z-coordinate as the player
+        Vector3 spawnPosition = shootPoint.transform.position;
+
 
         // Debugging: Log the mouse position
         Debug.Log("Mouse Position: " + mousePosition);
         // Calculate direction from player to mouse
-        Vector3 attackDirection = (mousePosition - transform.position);
+        Vector3 attackDirection = (mousePosition - spawnPosition);
 
         // Debugging: Log the attack direction
         //Debug.Log("Attack Direction: " + attackDirection);
-
-        // Calculate the spawn position
-        Vector3 spawnPosition = transform.position + attackDirection * spawnDistance;
 
         // Calculate the rotation to face the mouse direction
         float angle = Mathf.Atan2(attackDirection.y, attackDirection.x) * Mathf.Rad2Deg;
