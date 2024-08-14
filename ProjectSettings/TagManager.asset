@@ -15,6 +15,7 @@ TagManager:
   - HealthPickup
   - Enemyshot
   - upgrade
+  - Room
   layers:
   - Default
   - TransparentFX
