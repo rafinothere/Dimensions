@@ -16,6 +16,7 @@ TagManager:
   - Enemyshot
   - upgrade
   - Room
+  - Spawn node
   layers:
   - Default
   - TransparentFX
