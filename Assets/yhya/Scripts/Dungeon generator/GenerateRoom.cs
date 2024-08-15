@@ -1,4 +1,4 @@
-using System.Collections;
+ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,7 +13,7 @@ public class GenerateRoom : MonoBehaviour
 
     void Start()
     {
-
+        SpawnRoom();
     }
 
     //checks if theres already a room there
@@ -30,19 +30,32 @@ public class GenerateRoom : MonoBehaviour
         if(RoomSpawned == false)
         {
             Debug.Log("attempting room spawn");
+            int randomIndex;
             switch(ConnectorType)
             {
             case 1:
                 //spawn room with a bottom connector
+                randomIndex = Random.Range(0, BottomRooms.Length);
+                Instantiate(BottomRooms[randomIndex], transform.position, BottomRooms[randomIndex].transform.rotation);
+                Debug.Log("Room Spawned");
                 break;
             case 2:
                 //spawn a room with a top connector
+                randomIndex = Random.Range(0, TopRooms.Length);
+                Instantiate(TopRooms[randomIndex], transform.position, BottomRooms[randomIndex].transform.rotation);
+                Debug.Log("Room Spawned");
                 break;
             case 3:
                 //spawn a room with right connector
+                randomIndex = Random.Range(0, RightRooms.Length);
+                Instantiate(RightRooms[randomIndex], transform.position, BottomRooms[randomIndex].transform.rotation);
+                Debug.Log("Room Spawned");
                 break;
             case 4: 
                 //spawn a room with left coonector
+                randomIndex = Random.Range(0, LeftRooms.Length);
+                Instantiate(LeftRooms[randomIndex], transform.position, BottomRooms[randomIndex].transform.rotation);
+                Debug.Log("Room Spawned");
                 break;
             default:
                 Debug.LogError("connector type not assigned");
