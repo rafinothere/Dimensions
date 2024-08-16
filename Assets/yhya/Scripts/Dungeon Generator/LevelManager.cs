@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class LevelManager : MonoBehaviour
 {
-    public int RoomCount; //amount rooms to spawn each level
+    public int RoomCount; // amount of rooms to spawn each level
     [SerializeField] private int MaxRooms;
     [SerializeField] private int MinRooms;
+    public List<Vector2> roomPositions = new List<Vector2>(); // Track all room positions
 
     void Start()
     {
@@ -16,6 +17,17 @@ public class LevelManager : MonoBehaviour
     private void SetRoomCount()
     {
         RoomCount = Random.Range(MinRooms, MaxRooms);
-        Debug.Log("spawning " + RoomCount + " rooms");
+        Debug.Log("Spawning " + RoomCount + " rooms");
+    }
+
+    public bool IsPositionOccupied(Vector2 position)
+    {
+        return roomPositions.Contains(position);
+    }
+
+    public void RegisterRoomPosition(Vector2 position)
+    {
+        roomPositions.Add(position);
     }
 }
+
