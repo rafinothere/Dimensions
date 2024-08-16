@@ -213,7 +213,7 @@ GameObject:
   - component: {fileID: 1785719495618004715}
   m_Layer: 0
   m_Name: ground
-  m_TagString: Untagged
+  m_TagString: Room
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1030,7 +1030,7 @@ GameObject:
   - component: {fileID: 369687123858858297}
   m_Layer: 0
   m_Name: Grid
-  m_TagString: Untagged
+  m_TagString: Room
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
