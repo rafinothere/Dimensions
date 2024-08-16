@@ -17,6 +17,7 @@ TagManager:
   - upgrade
   - Room
   - Spawn node
+  - connector
   layers:
   - Default
   - TransparentFX
