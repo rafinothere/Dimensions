@@ -29,5 +29,9 @@ public class LevelManager : MonoBehaviour
     {
         roomPositions.Add(position);
     }
-}
 
+    public bool MaxRoomsReached()
+    {
+        return roomPositions.Count >= RoomCount;
+    }
+}
