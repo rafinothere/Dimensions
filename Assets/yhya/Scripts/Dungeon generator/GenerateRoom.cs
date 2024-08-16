@@ -10,10 +10,17 @@ public class GenerateRoom : MonoBehaviour
     [SerializeField] private GameObject[] RightRooms;
     [SerializeField] private int ConnectorType; // number representing where the spawn node is
     private bool RoomSpawned = false;
+    private LevelManager RoomCounter;
+
 
     void Start()
     {
-        SpawnRoom();
+        GetRoomCount();
+        if(RoomCounter.RoomCount > 0)
+        {
+            SpawnRoom();
+            RoomCounter.RoomCount--;
+        }
     }
 
     //checks if theres already a room there
@@ -21,7 +28,9 @@ public class GenerateRoom : MonoBehaviour
     {
         if(RoomCheck.CompareTag("Room"))
         {
+            Debug.Log("room Detected");
             Destroy(gameObject);
+            Debug.Log("NodeDestroyed");
         }
     }
 
@@ -61,6 +70,18 @@ public class GenerateRoom : MonoBehaviour
                 Debug.LogError("connector type not assigned");
                 break;
             }
+            RoomSpawned = true;
+            Destroy(gameObject);
+        }
+    }
+
+    private void GetRoomCount()
+    {
+        GameObject LevelManagerObject = GameObject.Find("LevelManager");
+        RoomCounter = LevelManagerObject.GetComponent<LevelManager>();
+        if(RoomCounter == null)
+        {
+            Debug.LogError("manager not found");
         }
     }
 }
