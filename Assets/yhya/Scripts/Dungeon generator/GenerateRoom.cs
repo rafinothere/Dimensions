@@ -14,7 +14,21 @@ public class GenerateRoom : MonoBehaviour
     void Start()
     {
         GetRoomCount();
-        RoomCounter.QueueRoomSpawn(this);
+        StartCoroutine(CheckAndRegister());
+    }
+
+    private IEnumerator CheckAndRegister()
+    {
+        yield return new WaitForSeconds(0.1f); // Short delay to ensure all colliders are set up
+
+        if (!Physics2D.OverlapCircle(transform.position, 0.1f, LayerMask.GetMask("Room")))
+        {
+            RoomCounter.RegisterNode(this);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
     public IEnumerator SpawnRoomCoroutine()

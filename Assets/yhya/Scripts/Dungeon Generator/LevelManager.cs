@@ -12,8 +12,8 @@ public class LevelManager : MonoBehaviour
     private HashSet<Vector2Int> occupiedPositions = new HashSet<Vector2Int>();
     public float gridSize = 10f; // Adjust this based on your room size
 
-    private Queue<GenerateRoom> spawnQueue = new Queue<GenerateRoom>();
-    private bool isProcessingQueue = false;
+    private List<GenerateRoom> availableNodes = new List<GenerateRoom>();
+    private bool isProcessingNodes = false;
 
     void Start()
     {
@@ -26,38 +26,47 @@ public class LevelManager : MonoBehaviour
         Debug.Log("Planning to spawn " + RoomCount + " rooms");
     }
 
-    public void QueueRoomSpawn(GenerateRoom node)
+    public void RegisterNode(GenerateRoom node)
     {
-        spawnQueue.Enqueue(node);
-        if (!isProcessingQueue)
+        if (!availableNodes.Contains(node))
         {
-            StartCoroutine(ProcessSpawnQueue());
+            availableNodes.Add(node);
+            if (!isProcessingNodes)
+            {
+                StartCoroutine(ProcessNodes());
+            }
         }
     }
 
-    private IEnumerator ProcessSpawnQueue()
+    private IEnumerator ProcessNodes()
     {
-        isProcessingQueue = true;
-        while (spawnQueue.Count > 0 && RoomCount > 0)
+        isProcessingNodes = true;
+        while (roomsSpawned < RoomCount && availableNodes.Count > 0)
         {
-            GenerateRoom node = spawnQueue.Dequeue();
+            int randomIndex = Random.Range(0, availableNodes.Count);
+            GenerateRoom node = availableNodes[randomIndex];
+
             if (CanSpawnRoom(node.transform.position))
             {
                 yield return StartCoroutine(node.SpawnRoomCoroutine());
+                availableNodes.RemoveAt(randomIndex);
             }
             else
             {
-                Destroy(node.gameObject);
+                availableNodes.RemoveAt(randomIndex);
             }
             yield return new WaitForSeconds(0.5f); // Delay between room spawns
         }
-        isProcessingQueue = false;
+        isProcessingNodes = false;
+
+        if (roomsSpawned < RoomCount)
+        {
+            Debug.LogWarning($"Not enough valid positions to spawn all rooms. Spawned {roomsSpawned} out of {RoomCount}");
+        }
     }
 
     public bool CanSpawnRoom(Vector2 position)
     {
-        if (roomsSpawned >= RoomCount) return false;
-
         Vector2Int gridPosition = WorldToGrid(position);
         return !occupiedPositions.Contains(gridPosition);
     }
@@ -67,8 +76,7 @@ public class LevelManager : MonoBehaviour
         Vector2Int gridPosition = WorldToGrid(position);
         occupiedPositions.Add(gridPosition);
         roomsSpawned++;
-        RoomCount--;
-        Debug.Log($"Room spawned at {gridPosition}. {RoomCount} rooms left to spawn.");
+        Debug.Log($"Room spawned at {gridPosition}. {roomsSpawned} rooms spawned out of {RoomCount}");
     }
 
     private Vector2Int WorldToGrid(Vector2 worldPosition)
